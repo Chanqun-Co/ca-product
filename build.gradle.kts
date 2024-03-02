@@ -20,7 +20,6 @@ allprojects {
 }
 
 subprojects {
-
     apply {
         plugin("java")
         plugin("org.springframework.boot")
@@ -33,14 +32,19 @@ subprojects {
         plugin("kotlin-allopen")
     }
 
+
     repositories {
         mavenCentral()
     }
+
+    extra["springCloudVersion"] = "2023.0.0"
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
         implementation("org.springframework.boot:spring-boot-starter-validation")
+        implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+
 
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -49,6 +53,12 @@ subprojects {
 
         runtimeOnly("com.mysql:mysql-connector-j")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        }
     }
 
     allOpen {
@@ -117,6 +127,7 @@ project(":api") {
         // Adjust configurations if necessary
         outputs.dir(snippetsDir)
     }
+
 
 }
 
