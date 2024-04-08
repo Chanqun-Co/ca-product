@@ -48,6 +48,7 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.github.microutils:kotlin-logging:1.12.5")
+        implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
         runtimeOnly("com.mysql:mysql-connector-j")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
