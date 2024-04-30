@@ -3,7 +3,7 @@ spring:
     name: ca-product
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${db.url:jdbc:mysql://localhost:3306/carsharing_user_dev}
+    url: ${db.url:jdbc:mysql://localhost:3306/carsharing_product_dev}
     username: ${db.username:root}
     password: ${db.password:1234}
     hikari:
@@ -11,12 +11,26 @@ spring:
       minimum-idle: 1
   jpa:
     hibernate:
-      ddl-auto: ${db.ddl:create-drop}
+      ddl-auto: ${db.ddl:create}
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        use_sql_comments: true
       jakarta:
         persistence:
           validation:
             mode: none
-    show-sql: false
+    show-sql: true
+
+server:
+  port: 0
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

@@ -51,6 +51,7 @@ subprojects {
         implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
         runtimeOnly("com.mysql:mysql-connector-j")
+        implementation("com.h2database:h2")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 

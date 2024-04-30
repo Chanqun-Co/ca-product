@@ -21,7 +21,7 @@ class CarModel(
 
     /** 연식 */
     @Column(nullable = false)
-    var year: Int,
+    var modelYear: Int,
 
     /** 연료 */
     @Enumerated(EnumType.STRING)

@@ -13,7 +13,7 @@ class ProductTest {
     private val carModel = CarModel(
             name = CarName.K7, // 가정: CarName 열거형에 TESLA_MODEL_S가 있다.
             manufacturer = Manufacturer.KIA, // 가정: Manufacturer 열거형에 TESLA가 있다.
-            year = 2022,
+            modelYear = 2022,
             fuel = Fuel.GASOLINE // 가정: Fuel 열거형에 ELECTRIC가 있다.
     )
     private val userUUID = UUID.randomUUID().toString()
@@ -57,7 +57,7 @@ class ProductTest {
         val updatedDescription = "An updated description of the car."
         val updatedImages = mutableListOf("image3.jpg", "image4.jpg")
 
-        product.update(updatedColor, updatedDistance, updatedRentalFee, updatedLicensePlate, updatedDescription, updatedImages, userUUID) // Assuming userUUID can be updated if necessary
+        product.update(updatedColor, updatedDistance, updatedRentalFee, updatedLicensePlate, updatedDescription, updatedImages) // Assuming userUUID can be updated if necessary
 
         assertEquals(updatedColor, product.color)
         assertEquals(updatedDistance, product.distance)
@@ -74,7 +74,9 @@ class ProductTest {
                 carModel, initialColor, initialDistance, initialRentalFee,
                 initialLicensePlate, initialStatus, initialDescription, initialImages, userUUID
         )
+
         product.approve()
+
         assertEquals(ProductStatus.AVAILABLE, product.status)
     }
 
@@ -84,7 +86,9 @@ class ProductTest {
                 carModel, initialColor, initialDistance, initialRentalFee,
                 initialLicensePlate, initialStatus, initialDescription, initialImages, userUUID
         )
+
         product.reject()
+
         assertEquals(ProductStatus.REJECTED, product.status)
     }
 }

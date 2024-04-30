@@ -12,42 +12,50 @@ import jakarta.persistence.*
  */
 @Entity
 class Product(
-        /** 차량 모델 */
-        @ManyToOne(fetch = FetchType.LAZY)
-        val carModel: CarModel,
-        /** 색상 */
-        @Enumerated(EnumType.STRING)
-        @Column(length = 20, nullable = false)
-        var color: ProductColor,
-        /** 주행거리 */
-        @Column(nullable = false)
-        var distance: Int,
-        /** 대여료 */
-        @Column(nullable = false)
-        var rentalFee: Int,
-        /** 차량번호 */
-        @Column(length = 50, nullable = false)
-        var licensePlate: String,
-        /** 상태 */
-        @Enumerated(EnumType.STRING)
-        @Column(length = 20, nullable = false)
-        var status: ProductStatus = REGISTERED,
+    /** 사용자 UUID */
+    @Column(nullable = false)
+    var userUUID: String,
 
-        /** 설명 */
-        @Column(columnDefinition = "TEXT")
-        var description: String,
-        /** 이미지 */
-        @ElementCollection
-        @CollectionTable(name = "product_img", joinColumns = [JoinColumn(name = "product_id")])
-        var images: MutableList<String> = mutableListOf(),
+    /** 차량 모델 */
+    @ManyToOne(fetch = FetchType.LAZY)
+    val carModel: CarModel,
 
-        /** 사용자 UUID */
-        @Column(nullable = false)
-        var userUUID: String
+    /** 색상 */
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
+    var color: ProductColor,
+
+    /** 주행거리 */
+    @Column(nullable = false)
+    var distance: Int,
+
+    /** 대여료 */
+    @Column(nullable = false)
+    var rentalFee: Int,
+
+    /** 차량번호 */
+    @Column(length = 50, nullable = false)
+    var licensePlate: String,
+
+    /** 상태 */
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
+    var status: ProductStatus = REGISTERED,
+
+    /** 설명 */
+    @Column(columnDefinition = "TEXT")
+    var description: String,
+
+    /** 이미지 */
+    @ElementCollection
+    @CollectionTable(name = "product_img", joinColumns = [JoinColumn(name = "product_id")])
+    var images: MutableList<String> = mutableListOf()
+
 ) : BaseAggregateRoot<Product>() {
+    // update 분리
     fun update(
-            color: ProductColor, distance: Int, rentalFee: Int, licensePlate: String,
-            description: String, images: MutableList<String>, userUUID: String
+        color: ProductColor, distance: Int, rentalFee: Int, licensePlate: String,
+        description: String, images: MutableList<String>
     ) {
         require(rentalFee >= MINIMUM_FEE)
         require(images.size <= MAXIMUM_IMAGE_COUNT)
@@ -75,16 +83,17 @@ class Product(
         const val MINIMUM_FEE = 0
 
         fun create(
-                carModel: CarModel, color: ProductColor, distance: Int, rentalFee: Int,
-                licensePlate: String, status: ProductStatus, description: String,
-                images: MutableList<String>, userUUID: String
+            carModel: CarModel, color: ProductColor, distance: Int, rentalFee: Int,
+            licensePlate: String, status: ProductStatus, description: String,
+            images: MutableList<String>, userUUID: String
         ): Product {
             require(rentalFee >= MINIMUM_FEE)
             require(images.size <= MAXIMUM_IMAGE_COUNT)
+
             return Product(
-                    carModel = carModel, color = color, distance = distance, rentalFee = rentalFee,
-                    licensePlate = licensePlate, status = status, description = description,
-                    images = images, userUUID = userUUID
+                carModel = carModel, color = color, distance = distance, rentalFee = rentalFee,
+                licensePlate = licensePlate, status = status, description = description,
+                images = images, userUUID = userUUID
             )
         }
     }
